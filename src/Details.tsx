@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { type User } from "./types.tsx";
 import { useParams } from "react-router-dom";
 import { Link } from "react-router-dom";
@@ -63,7 +63,7 @@ const Details = () => {
                       type="button"
                       className="text-blue-600 cursor-pointer hover:text-blue-900 text-xs border border-blue-600 rounded px-2 py-0.5"
                       onClick={() => {
-                        navigator.clipboard.writeText(user.email);
+                        navigator.clipboard.writeText(details.email);
                         alert("Email copied to clipboard!");
                       }}
                       title="Copy email"

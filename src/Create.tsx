@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 // import {nanoid} from 'nanoid'
 import { Link, useNavigate } from "react-router-dom";
-import { type User } from "./types.tsx";
+
 
 const Create = () => {
   const [firstName, setFirstName] = useState("");
