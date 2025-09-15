@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, Link, useNavigate } from "react-router-dom";
 
 const Edit = () => {
   const navigate = useNavigate();
   const { id } = useParams();
+
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [age, setAge] = useState<number | "">("");
@@ -24,7 +25,6 @@ const Edit = () => {
         setAge(data.age);
         setGender(data.gender);
         setEmail(data.email);
-        // console.log("Fetched user:", data);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -32,38 +32,33 @@ const Edit = () => {
     fetchUserDetails();
   }, [id]);
 
-  const updateUserDetails = async () => {
-      try {
-        const response = await fetch(
-          `https://68c32307f9928dbf33f0cbd6.mockapi.io/api/users/${id}`,
-          {
-            method: "PUT",
-            headers: { "Content-Type": "application/json" },
-            body: JSON.stringify({
-              firstName,
-              lastName,
-              age: age === "" ? 0 : age,
-              gender,
-              email,
-            }),
-          }
-        );
-        if (!response.ok) {
-          throw new Error("Failed to add user");
+
+  const handleSubmit = async (formData: FormData) => {
+
+    const data = Object.fromEntries(formData);
+
+    try {
+      const response = await fetch(
+        `https://68c32307f9928dbf33f0cbd6.mockapi.io/api/users/${id}`,
+        {
+          method: "PUT",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            ...data,
+            age: data.age === "" ? 0 : Number(data.age),
+          }),
         }
-        window.alert("User Details Updated Successfully ✅");
-        navigate("/");
-        // console.log(data);
-      } catch (error) {
-        console.error("Error updating user details:", error);
-        window.alert("Error updating user details ❌");
+      );
+      if (!response.ok) {
+        throw new Error("Failed to add user");
       }
-    };
-  
-    const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-      e.preventDefault();
-      updateUserDetails();
-    };
+      window.alert("User Details Updated Successfully ✅");
+      navigate("/");
+    } catch (error) {
+      console.error("Error updating user details:", error);
+      window.alert("Error updating user details ❌");
+    }
+  };
 
   return (
     <div>
@@ -72,7 +67,7 @@ const Edit = () => {
           EDIT USER DETAILS
         </h1>
 
-        <form onSubmit={handleSubmit} className="space-y-4">
+        <form action={handleSubmit} className="space-y-4">
           <label className="flex flex-col gap-1 font-medium">
             <span className="mb-1 font-bold">First Name:</span>
             <input
@@ -122,11 +117,6 @@ const Edit = () => {
           </label>
           <label className="flex flex-col w-42 gap-1 font-medium">
             <span className="mb-1 font-bold">Gender:</span>
-            {/* <input onChange={(e) => setFirstName(e.target.value)}
-              type="text"
-              className="border border-gray-300 rounded-md px-3 py-2 focus:outline-none focus:ring-2 focus:ring-blue-900"
-              placeholder="Enter your gender"
-            /> */}
             <select
               name=""
               id=""
@@ -147,10 +137,6 @@ const Edit = () => {
           <div className="space-x-4 mt-8">
             <button
               type="submit"
-              onClick={() => {
-                // addUser();
-                // navigate('/');
-              }}
               className="cursor-pointer px-3 py-1.5 rounded-md text-semibold text-white bg-blue-900"
             >
               Update
