@@ -162,7 +162,17 @@ const Table = () => {
                 <p className="flex justify-between font-bold text-sm">LASTNAME:<span className="font-medium text-base">{user.lastName}</span></p>
                 <p className="flex justify-between font-bold text-sm">AGE:<span className="font-medium text-base">{user.age}</span></p>
                 <p className="flex justify-between font-bold text-sm">GENDER:<span className="font-medium text-base">{user.gender}</span></p>
-                <p className="flex justify-between font-bold text-sm">EMAIL:<span className="font-medium text-base">{user.email}</span> </p>
+                <p className="flex justify-between font-bold text-sm">EMAIL:<span className="font-medium text-base">{user.email}<button
+                      type="button"
+                      className="text-blue-600 ml-2 cursor-pointer hover:text-blue-900 text-xs border border-blue-600 rounded px-2 py-0.5"
+                      onClick={() => {
+                        navigator.clipboard.writeText(user.email);
+                        alert("Email copied to clipboard!");
+                      }}
+                      title="Copy email"
+                    >
+                      Copy
+                    </button></span> </p>
                 <p className="flex justify-between font-bold text-sm items-center">ACTION:<span className="flex font-medium text-base gap-2 items-center justify-center">
                   <Link
                     to={`/details/${user.id}`}
