@@ -63,8 +63,8 @@ const Table = () => {
       >
         Add User
       </Link>
-  <div className="overflow-x-auto">
-      <table className="w-full rounded-md overflow-hidden shadow-md mt-4">
+
+      <table className="w-fit hidden lg:block rounded-md overflow-hidden shadow-md mt-4">
         <thead className="bg-blue-900">
           <tr>
             <th className="text-white p-3 text-center">S/N</th>
@@ -152,6 +152,44 @@ const Table = () => {
           </tbody>
         )}
       </table>
+      {/* mobile view */}
+      <div className="lg:hidden mt-4 space-y-4">
+        {isLoading ? (<Loading />) : (users && users.length ? (
+          users.map((user, index) => {
+            return (
+              <div key={index} className="w-full p-4 shadow-[0_0_5px_gray] rounded-md flex flex-col gap-2">
+                <p className="flex justify-between font-bold text-sm">FIRSTNAME:<span className="font-medium text-base">{user.firstName}</span></p>
+                <p className="flex justify-between font-bold text-sm">LASTNAME:<span className="font-medium text-base">{user.lastName}</span></p>
+                <p className="flex justify-between font-bold text-sm">AGE:<span className="font-medium text-base">{user.age}</span></p>
+                <p className="flex justify-between font-bold text-sm">GENDER:<span className="font-medium text-base">{user.gender}</span></p>
+                <p className="flex justify-between font-bold text-sm">EMAIL:<span className="font-medium text-base">{user.email}</span> </p>
+                <p className="flex justify-between font-bold text-sm items-center">ACTION:<span className="flex font-medium text-base gap-2 items-center justify-center">
+                  <Link
+                    to={`/details/${user.id}`}
+                    className="px-2 py-0.5 rounded-md bg-green-500 hover:bg-green-600 text-white font-semibold transition"
+                  >
+                    View
+                  </Link>
+                  <Link
+                    to={`/edit/${user.id}`}
+                    className="px-2 py-0.5 rounded-md bg-blue-500 hover:bg-blue-600 text-white font-semibold transition"
+                  >
+                    Edit
+                  </Link>
+                  <button
+                    onClick={() => handleDelete(user.id)}
+                    className="px-2 py-0.5 rounded-md bg-red-600 hover:bg-red-700 text-white font-semibold transition"
+                  >
+                    Delete
+                  </button>
+                </span></p>
+              </div>
+            )
+          })
+        ) : (
+          <p className="text-center">No user found....</p>
+        ))}
+
       </div>
     </div>
   );
